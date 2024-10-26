@@ -61,7 +61,7 @@ def find_optimal_bar(graph, universities, bars, weights, bar_ratings, bar_prices
     return bar_scores[:3]
 
 def main():
-    # Example setup for bar ratings and prices
+    # Setup for bar ratings and prices
     bar_ratings = {
         'jarra_pipa': 3.9, 'cappuccino': 3.8, 'el_tigre': 4.2, 'fontana_oro': 4, 'baton_rouge': 4.6, 'radio_rooftop': 3.8,
         'inclan': 4.7, 'mambo': 4.2, 'gato': 4.3, 'bar_luis': 4.2, 'bar_v': 3.5, 'churruca': 4.3, 'bar_sidi': 4, 'madriz_bar': 4.3,
@@ -76,7 +76,7 @@ def main():
         'moreno': 5, 'serrano80': 15, 'jurucha': 15, 'el_41': 5
     }
 
-    # Example graph setup
+    # Graph setup
     graph = {
         # Universities connected to metro stations
         'ietower': {'begona': 8},
@@ -150,6 +150,24 @@ def main():
         'el_41': {'serrano': 2},
     }
 
+    bars = [
+        'jarra_pipa', 'cappuccino', 'el_tigre', 'fontana_oro', 'baton_rouge', 'radio_rooftop', 'inclan', 'mambo', 'gato',
+        'bar_luis', 'bar_v', 'churruca', 'bar_sidi', 'madriz_bar', 'labrador', 's10bar', 'bar_armando', 'terraza',
+        'casa_malicia', 'cuevita', 'bar_cruz', 'moreno', 'serrano80', 'jurucha', 'el_41'
+    ]
+
+    # Available universities for selection
+    available_universities = ['ietower', 'iemm', 'reyjuan', 'uc3m', 'complu']
+    print("Available universities:", ", ".join(available_universities))
+    
+    # User selects universities by entering a comma-separated list
+    selected_universities = input("Enter universities to include (comma-separated): ").split(',')
+    universities = [uni.strip() for uni in selected_universities if uni.strip() in available_universities]
+
+    if not universities:
+        print("No valid universities selected. Exiting.")
+        return
+    
     # User input for weights
     weight_time = float(input("Enter weight for time (0-1): "))
     weight_rating = float(input("Enter weight for rating (0-1): "))
@@ -158,14 +176,6 @@ def main():
     # Normalizing weights to add up to 1
     total_weight = weight_time + weight_rating + weight_price
     weights = (weight_time / total_weight, weight_rating / total_weight, weight_price / total_weight)
-
-    # List of all universities and bars
-    universities = ['ietower', 'iemm', 'reyjuan', 'uc3m', 'complu']
-    bars = [
-        'jarra_pipa', 'cappuccino', 'el_tigre', 'fontana_oro', 'baton_rouge', 'radio_rooftop', 'inclan', 'mambo', 'gato',
-        'bar_luis', 'bar_v', 'churruca', 'bar_sidi', 'madriz_bar', 'labrador', 's10bar', 'bar_armando', 'terraza',
-        'casa_malicia', 'cuevita', 'bar_cruz', 'moreno', 'serrano80', 'jurucha', 'el_41'
-    ]
 
     top_bars = find_optimal_bar(graph, universities, bars, weights, bar_ratings, bar_prices)
     for i, (score, bar) in enumerate(top_bars, start=1):
