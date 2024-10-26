@@ -34,7 +34,7 @@ def total_travel_time(graph, universities, bar):
 
 # Calculate weighted score for a bar based on time, rating, and price
 def calculate_weighted_score(time, rating, price, weight_time, weight_rating, weight_price):
-    return (weight_time * time) + (weight_rating * rating) + (weight_price * price)
+    return (weight_time * time) - (weight_rating * rating) + (weight_price * price)
 
 # Main function to find the top three optimal bars
 def find_optimal_bar(graph, universities, bars, weights, bar_ratings, bar_prices):
@@ -63,17 +63,17 @@ def find_optimal_bar(graph, universities, bars, weights, bar_ratings, bar_prices
 def main():
     # Example setup for bar ratings and prices
     bar_ratings = {
-        'jarra_pipa': 8, 'cappuccino': 7, 'el_tigre': 9, 'fontana_oro': 6, 'baton_rouge': 7, 'radio_rooftop': 8,
-        'inclan': 6, 'mambo': 7, 'gato': 8, 'bar_luis': 5, 'bar_v': 7, 'churruca': 9, 'bar_sidi': 6, 'madriz_bar': 8,
-        'labrador': 7, 's10bar': 8, 'bar_armando': 7, 'terraza': 6, 'casa_malicia': 9, 'cuevita': 8, 'bar_cruz': 6,
-        'moreno': 7, 'serrano80': 8, 'jurucha': 6, 'el_41': 7
+        'jarra_pipa': 3.9, 'cappuccino': 3.8, 'el_tigre': 4.2, 'fontana_oro': 4, 'baton_rouge': 4.6, 'radio_rooftop': 3.8,
+        'inclan': 4.7, 'mambo': 4.2, 'gato': 4.3, 'bar_luis': 4.2, 'bar_v': 3.5, 'churruca': 4.3, 'bar_sidi': 4, 'madriz_bar': 4.3,
+        'labrador': 4.4, 's10bar': 4.3, 'bar_armando': 4.5, 'terraza': 3.9, 'casa_malicia': 4.5, 'cuevita': 4.2, 'bar_cruz': 4.1,
+        'moreno': 4.6, 'serrano80': 3.7, 'jurucha': 4.3, 'el_41': 4.2
     }
 
     bar_prices = {
-        'jarra_pipa': 15, 'cappuccino': 12, 'el_tigre': 10, 'fontana_oro': 9, 'baton_rouge': 11, 'radio_rooftop': 14,
-        'inclan': 10, 'mambo': 11, 'gato': 13, 'bar_luis': 8, 'bar_v': 10, 'churruca': 13, 'bar_sidi': 10, 'madriz_bar': 12,
-        'labrador': 11, 's10bar': 12, 'bar_armando': 9, 'terraza': 10, 'casa_malicia': 14, 'cuevita': 12, 'bar_cruz': 9,
-        'moreno': 11, 'serrano80': 13, 'jurucha': 12, 'el_41': 10
+        'jarra_pipa': 5, 'cappuccino': 20, 'el_tigre': 5, 'fontana_oro': 15, 'baton_rouge': 15, 'radio_rooftop': 15,
+        'inclan': 30, 'mambo': 15, 'gato': 15, 'bar_luis': 5, 'bar_v': 5, 'churruca': 5, 'bar_sidi': 15, 'madriz_bar': 5,
+        'labrador': 15, 's10bar': 15, 'bar_armando': 25, 'terraza': 7.5, 'casa_malicia': 5, 'cuevita': 15, 'bar_cruz': 15,
+        'moreno': 5, 'serrano80': 15, 'jurucha': 15, 'el_41': 5
     }
 
     # Example graph setup
@@ -156,7 +156,7 @@ def main():
     weight_price = float(input("Enter weight for price (0-1): "))
 
     # Normalizing weights to add up to 1
-    total_weight = weight_time - weight_rating + weight_price
+    total_weight = weight_time + weight_rating + weight_price
     weights = (weight_time / total_weight, weight_rating / total_weight, weight_price / total_weight)
 
     # List of all universities and bars
@@ -167,11 +167,6 @@ def main():
         'casa_malicia', 'cuevita', 'bar_cruz', 'moreno', 'serrano80', 'jurucha', 'el_41'
     ]
 
-    """Find the optimal bars
-    top_bars = find_optimal_bars(graph, universities, bars, weight_time, weight_rating, weight_price, bar_ratings, bar_prices)
-    for i, (score, bar) in enumerate(top_bars, start=1):
-        print(f"Top {i} bar: {bar} with a score of {score:.2f}")
-        """
     top_bars = find_optimal_bar(graph, universities, bars, weights, bar_ratings, bar_prices)
     for i, (score, bar) in enumerate(top_bars, start=1):
         print(f"Top {i} bar: {bar} with a weighted score of {score:.2f}")
