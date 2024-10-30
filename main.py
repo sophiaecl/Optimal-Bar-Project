@@ -66,21 +66,21 @@ def main():
         'jarra_pipa': 3.9, 'cappuccino': 3.8, 'el_tigre': 4.2, 'fontana_oro': 4, 'baton_rouge': 4.6, 'radio_rooftop': 3.8,
         'inclan': 4.7, 'mambo': 4.2, 'gato': 4.3, 'bar_luis': 4.2, 'bar_v': 3.5, 'churruca': 4.3, 'bar_sidi': 4, 'madriz_bar': 4.3,
         'labrador': 4.4, 's10bar': 4.3, 'bar_armando': 4.5, 'terraza': 3.9, 'casa_malicia': 4.5, 'cuevita': 4.2, 'bar_cruz': 4.1,
-        'moreno': 4.6, 'serrano80': 3.7, 'jurucha': 4.3, 'el_41': 4.2
+        'moreno': 4.6, 'serrano80': 3.7, 'jurucha': 4.3, 'el_41': 4.2, 'warehouse': 4.1
     }
 
     bar_prices = {
         'jarra_pipa': 5, 'cappuccino': 20, 'el_tigre': 5, 'fontana_oro': 15, 'baton_rouge': 15, 'radio_rooftop': 15,
         'inclan': 30, 'mambo': 15, 'gato': 15, 'bar_luis': 5, 'bar_v': 5, 'churruca': 5, 'bar_sidi': 15, 'madriz_bar': 5,
         'labrador': 15, 's10bar': 15, 'bar_armando': 25, 'terraza': 7.5, 'casa_malicia': 5, 'cuevita': 15, 'bar_cruz': 15,
-        'moreno': 5, 'serrano80': 15, 'jurucha': 15, 'el_41': 5
+        'moreno': 5, 'serrano80': 15, 'jurucha': 15, 'el_41': 5, 'warehouse': 30
     }
 
     # Graph setup
     graph = {
         # Universities connected to metro stations
         'ietower': {'begona': 8},
-        'iemm': {'av_america': 8},
+        'iemm': {'av_america': 8, 'nun_balb': 9, 'warehouse': 3},
         'reyjuan': {'man_becerra': 2},
         'uc3m': {'pta_toledo': 1},
         'complu': {'ciud_uni': 1},
@@ -88,7 +88,7 @@ def main():
         # Metro stations connected to each other (within the same metro line)
         'begona': {'ietower': 8, 'plaza_castilla': 4},
         'plaza_castilla': {'begona': 8, 'av_america': 9, 'nuev_min': 4},
-        'av_america': {'iemm': 8, 'plaza_castilla': 9, 'man_becerra': 3, 'goya': 5, 'nuev_min': 4, 'greg_mar': 3, 'nun_balb': 2},
+        'av_america': {'iemm': 8, 'plaza_castilla': 9, 'man_becerra': 3, 'goya': 5, 'nuev_min': 4, 'greg_mar': 3, 'nun_balb': 2, 'warehouse': 7},
         'man_becerra': {'reyjuan': 2, 'av_america': 3, 'goya': 1},
         'goya': {'man_becerra': 1, 'av_america': 5, 'serrano': 2, 'pri_vergara': 1, 'jarra_pipa': 1},
         'pri_vergara': {'goya': 1, 'jarra_pipa': 7, 'nun_balb': 2, 'retiro': 1},
@@ -111,14 +111,14 @@ def main():
         'guzman': {'ciud_uni': 3, 'cuatro_cam': 2, 'islas_fil': 3},
         'islas_fil': {'guzman': 3, 'canal': 2, 's10bar': 6, 'bar_armando': 6, 'madriz_bar': 11, 'labrador': 5},
         'bilbao': {'cuatro_cam': 5, 'alonso_mar': 2, 'tribunal': 1, 'san_bernardo': 1, 'churruca': 4},
-        'gran_via': {'tribunal': 2, 'chueca': 2, 'sol': 1, 'callao': 1},
+        'gran_via': {'tribunal': 2, 'chueca': 2, 'sol': 1, 'callao': 1, 'bar_sidi': 7},
         'callao': {'gran_via': 1, 'sol': 1, 'opera': 2, 'arguelles': 3},
         'tirso': {'sol': 2, 'terraza': 6, 'casa_malicia': 9, 'cuevita': 8, 'bar_cruz': 5, 'moreno': 10},
         'pta_toledo': {'uc3m': 1, 'latina': 1},
         'latina': {'pta_toledo': 1, 'opera': 2, 'terraza': 7, 'casa_malicia': 10, 'cuevita': 7, 'bar_cruz': 1, 'moreno': 8},
         'chueca': {'gran_via': 2, 'alonso_mar': 2, 'bar_v': 1, 'el_tigre': 5, 'bar_sidi': 7},
-        'nun_balb': {'chueca': 3, 'av_america': 2, 'pri_vergara': 2, 'serrano80': 8, 'jurucha': 11},
-        'serrano': {'goya': 2, 'alonso_mar': 2, 'el_41': 2},
+        'nun_balb': {'chueca': 5, 'av_america': 2, 'pri_vergara': 2, 'serrano80': 8, 'jurucha': 11, 'warehouse': 10},
+        'serrano': {'goya': 2, 'alonso_mar': 3, 'el_41': 2},
 
 
 
@@ -148,12 +148,13 @@ def main():
         'serrano80': {'nun_balb': 8, 'serrano': 11},
         'jurucha': {'nun_balb': 11, 'serrano': 6},
         'el_41': {'serrano': 2},
+        'warehouse': {'iemm': 3}
     }
 
     bars = [
         'jarra_pipa', 'cappuccino', 'el_tigre', 'fontana_oro', 'baton_rouge', 'radio_rooftop', 'inclan', 'mambo', 'gato',
         'bar_luis', 'bar_v', 'churruca', 'bar_sidi', 'madriz_bar', 'labrador', 's10bar', 'bar_armando', 'terraza',
-        'casa_malicia', 'cuevita', 'bar_cruz', 'moreno', 'serrano80', 'jurucha', 'el_41'
+        'casa_malicia', 'cuevita', 'bar_cruz', 'moreno', 'serrano80', 'jurucha', 'el_41', 'warehouse'
     ]
 
     # Available universities for selection
